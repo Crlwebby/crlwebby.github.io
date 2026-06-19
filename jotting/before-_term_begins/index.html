@@ -1,0 +1,627 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    <title>开学倒数第二周 | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。 参考了 Angel_Kitty 大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。 概要： 学习情况 体育锻炼 世界观和方法论 学习情况 要说学习，本周确实没有干..." />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="总结, 自我认识" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="开学倒数第二周 | Crlwebby" />
+    
+    <meta property="og:description" content="惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。 参考了 Angel_Kitty 大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。 概要： 学习情况 体育锻炼 世界观和方法论 学习情况 要说学习，本周确实没有干..." />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/jotting/before-_term_begins/index.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    
+    
+    <meta property="article:published_time" content="2019-08-25T15:14:03.000Z" />
+    
+    
+    <meta property="article:modified_time" content="2026-06-19T05:49:52.245Z" />
+    
+    
+    <meta property="article:author" content="crlwebby" />
+    
+    
+    
+    <meta property="article:tag" content="总结" />
+    
+    <meta property="article:tag" content="自我认识" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="开学倒数第二周 | Crlwebby" />
+    
+    <meta name="twitter:description" content="惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。 参考了 Angel_Kitty 大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。 概要： 学习情况 体育锻炼 世界观和方法论 学习情况 要说学习，本周确实没有干..." />
+    
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/jotting/before-_term_begins/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BlogPosting","headline":"开学倒数第二周","mainEntityOfPage":{"@type":"WebPage","@id":"https://crlwebby.github.io/jotting/before-_term_begins/index.html"},"description":"惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。 参考了 Angel_Kitty 大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。 概要： 学习情况 体育锻炼 世界观和方法论 学习情况 要说学习，本周确实没有干...","datePublished":"2019-08-25T15:14:03.000Z","dateModified":"2026-06-19T05:49:52.245Z","author":{"@type":"Person","name":"crlwebby"},"publisher":{"@type":"Organization","name":"Crlwebby","logo":{"@type":"ImageObject","url":"https://crlwebby.github.io/favicon.svg"}},"keywords":"总结, 自我认识"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    <div id="progressBar" class="progress-bar" aria-hidden="true"></div>
+    
+    
+    <div id="backToTopSentinel" class="back-to-top-sentinel" aria-hidden="true"></div>
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <p class="site-title">
+                    <a href="/">Crlwebby</a>
+                </p>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+
+
+
+
+
+
+
+
+<article class="py-2">
+    <header class="text-center mb-8">
+        
+        <h1 class="page-title mb-4" data-pagefind-body data-pagefind-meta="title">
+            开学倒数第二周
+        </h1>
+        
+        
+
+
+
+<div class="mb-4 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2019/" class="oldstyle-nums link-muted"><time datetime="2019-08-25">2019/08/25</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                    <a class="link-muted" href="/categories/jotting/">jotting</a>
+                    
+                
+            
+        </div>
+    
+</div>
+
+        
+    </header>
+
+    
+
+    <div class="prose-shiro" data-pagefind-body>
+        <p>惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。</p>
+<p>参考了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/">Angel_Kitty</a>大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。</p>
+<p>概要：</p>
+<blockquote>
+<p>学习情况</p>
+<p>体育锻炼</p>
+<p>世界观和方法论</p>
+</blockquote>
+<p><strong>学习情况</strong></p>
+<p>要说学习，本周确实没有干什么事情。不光是leetcode刷题根本未曾提上日程，即使是仅与学习相关的内容，诸如寻找电子书资料亦或者是学习计划安排什么的都未曾有过，这周实实在在的一个咸鱼。</p>
+<p><strong>体育锻炼</strong></p>
+<p>硬要说的话，也就两次十几公里的骑行让我感到自己是在锻炼，此外便于锻炼无缘了。囚徒健身稍微看了一点，虽然对于健身房贬低的一无是处这种观点很令人反感，但这个健身的目的倒是与我的观点蛮符合的，大概也类似于街健吧，做一些诸如单手引体、倒立、空翻之类的动作是我的终极目标，我不是很喜欢大块头的肌肉，但热衷于做到这些动作，让自己变得灵活。此外，囚徒的健身体系，每个等级都以做到某些动作多少组多少次为界限进行下一组的训练，这种等级提升的东西也很能吸引我坚持下去，我希望能照着这本书坚持下去。</p>
+<span id="more"></span>
+<p><strong>世界观和方法论</strong></p>
+<p>说是这个高大上的标题，其实不过是本周把《进击的巨人》漫画补完了。最初看的before the fall，也蛮精彩的，但发现与巨人后期在马莱的剧情相比起来，就显得比较幼稚，或者说比较平庸吧。我也是在知乎看相关感想后才发现<strong>虚无主义</strong>和<strong>存在主义</strong>这两个相辅相成的概念。</p>
+<p>简单来说，虚无主义就是比较普遍的去思考人生的终极意义，发现什么都毫无意义的时候，就叫虚无主义了。人终有一死，死后空无一物；与地球相比，人类文明数千年不过一瞬；与宇宙相比，地球更显渺小。那么人生的意义是什么呢？人生本就没有意义，这就是虚无主义。</p>
+<p>但如果，人为的为人生赋予意义，就变成了存在主义。有人为了钱、有人为了权、有人为了万事功业、有人为了自我享乐、有人为了实现政治抱负、有人心系社稷……人为赋予人生意义，并为了这个意义奋斗终身，这就是存在主义。</p>
+<p>我还记得巨人里面肯尼死之前说的话</p>
+<p>是啊，人都是意义的奴隶。如果找不到自己努力的意义，那么努力这件事情本身看起来就是很可笑的。自从发现这一点后（我给自己找个借口……），我已经整整一年没有好好学习了。存在主义所说的就有很多是高中生。高考前我们为了一个高考努力学习，丝毫不觉得枯燥无趣，有时还会想起那学习当中仅仅些许的趣事；但大一一整年，我失去了自己努力的目标，失去了人生的意义，陷入了虚无主义。纵使有时候会责备自己的不作为，而去图书馆待两天学些课内的课程，终不免丧失斗志碌碌无为。这就是我大一一整年的状态。</p>
+<p>我承认我可能是在为自己的颓废找借口，但我也确实每次丧的时候，思考自己为什么会变成这样时，最终的思考总会停在“给自己找个意义”这一点上。我需要给自己找一个意义。</p>
+<p>我希望我的意义是，<strong>能为了生活而工作而不是为了生存而工作，并在工作之余探索世界的未知</strong>。</p>
+<p>我需要自己诠释这段话，不然以后我又会忘了，又或者找另一个截然不同的意义，不固定的意义是没有用的，意义每天更换会导致最后原地踏步，大一的生活足以给我足够的教训。大一一整年，别人都在成长，或者技术水平提高了很多，或者身体素质提高了很多，或者社交圈扩大了很多，或者学生工作参与了很多有成长，或者吃喝玩乐见识了很多。而我，什么都没有变化，和高中毕业那时相比没有任何变化，甚至退化了不少。我不希望大二也是如此，真的不希望。</p>
+<p>我想要足够的技术水平，想让我的技术博客能有更多的人去看，想让我的技术能够胜任月薪至少10K或者更高的标准五天八小时的工作，并且能时刻学习新技术不会被市场淘汰，这是我的第一个目标。</p>
+<p>我的第二个目标是能每天利用下班时间摸索自己的兴趣爱好。或许如大佬们一样做个自行车发烧友，用一辆山地车探索整个城市的角落或者公路车体验40+甚至更高速度的快感；或者每周稳定跑量，训练自己的身体，体验一下一千米进3分钟五公里进17分钟十公里进40分钟的那种不同的境界；或者读书读文学学学写作，用文字表达情感；或者读历史读政治从宏观了解社会的发展脉络；或者读读哲学整合一下自己脑中乱七八糟的想法让自己变得智慧；或者读读数学体会那种严谨，从数学分析高等代数到以后的抽代、实分析复分析泛函分析等等（我也不知道更多还有什么。。）；或者读读物理科普读读正经物理书从微观了解宇宙的奥秘……或者做个极客捣鼓一些技术上的小玩意儿或是编程或是单片机，让生活充满乐趣。</p>
+<p>明眼可见，我的野心开始膨胀了。自行车、跑步（莫不是想试试铁人三项？）、文学、历史、政治、经济、哲学、数学、物理、计算机、英语、健身……</p>
+<p>以上任何一样都是可以令人付出终身之努力而达不到足够水平的，但我却企图都去看看吗？可以说是痴心妄想。我需要削减自己的野心。但也正是因为这世界如此之精彩，我才想去探索这个世界的精彩。未知的事情太多，未曾到达那个领域就看不见那个领域的风景，而我想看。不知这是否足以成为我人生的意义？</p>
+<p>这便是我人生的意义。或许听来可笑，一个致力于探索世界的人却常常宅在家里，并且没有冒险精神，以稳定的工作和收入为前提去探索世界，滑天下之大稽。</p>
+<p>认真的，我想去探索这个世界。哪怕上述目标极大可能一个达不成。只要我为之努力，是否就可以不负此生呢？</p>
+<p>又似乎，目标太多，等同于没有目标呢？</p>
+<p>活在世界上的意义有了：<strong>探索世界的未知</strong>，我还需要行动纲领，大抵下述几点。</p>
+<ul>
+<li>从事安全，拓展技术。（毕竟希望靠安全行业吃饭。。拓展技术暂且是前端吧，或许数学学着学着有了ML的资本也说不准）</li>
+<li>数学其次，等同健身。（数学是一切的根本，万万不可荒废。身体也是一样，身体不好什么都白搭）</li>
+<li>不废文学，不废英语。（坚持读书，每年读个四五本名著终归是要的，对于认识世界和纠正偏见有莫大的帮助，英语的重要性就不必说了）</li>
+</ul>
+<p><strong>探索世界的未知，并“从事安全，拓展技术；数学其次，等同健身；不废文学，不废英语。</strong></p>
+<p>如果坚持这条意义以及三条纲领并坚信不疑，我觉得我的下学期会过的很有意义。</p>
+
+    </div>
+
+    <!-- Tags -->
+    
+    <div class="mt-8 flex flex-wrap gap-2">
+        
+        
+<a href="/tags/%E6%80%BB%E7%BB%93/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    总结
+    
+</a>
+
+        
+        
+<a href="/tags/%E8%87%AA%E6%88%91%E8%AE%A4%E8%AF%86/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    自我认识
+    
+</a>
+
+        
+    </div>
+    
+
+    
+    <!-- Post Navigation: Hexo's page.prev = newer post, page.next = older post -->
+    <div class="section-divider flex justify-between items-center text-sm md:text-base">
+        
+        <a href="/language/C-plus-plus/C++_lambda/" class="post-nav-link group text-left" title="C++匿名函数（Lambda函数）介绍">
+             <span aria-hidden="true">&larr;</span>
+             <span class="post-nav-title">C++匿名函数（Lambda函数）介绍</span>
+        </a>
+        
+
+        
+        <div></div>
+        
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+</article>
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+    <button id="backToTop" type="button" class="back-to-top" data-visible="false" aria-label="回到顶部">
+        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    
+    
+    
+    <script defer src="/js/progress.min.js?v=6b058157"></script>
+    
+    
+    <script defer src="/js/back-to-top.min.js?v=cebd24d7"></script>
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>

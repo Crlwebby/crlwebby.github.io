@@ -1,0 +1,670 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    <title>【转载】"代理中PAC模式和全局模式的区别" | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="原文地址： 代理软件中PAC模式和全局模式的区别 作者主页 （该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载） 代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结： PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。 全局模式：所有网站都走代理，访问国内网站速度变慢。" />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="转载, 网络, 代理, 梯子" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【转载】"代理中PAC模式和全局模式的区别" | Crlwebby" />
+    
+    <meta property="og:description" content="原文地址： 代理软件中PAC模式和全局模式的区别 作者主页 （该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载） 代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结： PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。 全局模式：所有网站都走代理，访问国内网站速度变慢。" />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/network/proxy/PAC-vs-whole/index.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    
+    
+    <meta property="article:published_time" content="2021-02-09T15:07:11.000Z" />
+    
+    
+    <meta property="article:modified_time" content="2026-06-19T05:49:52.251Z" />
+    
+    
+    <meta property="article:author" content="crlwebby" />
+    
+    
+    
+    <meta property="article:tag" content="转载" />
+    
+    <meta property="article:tag" content="网络" />
+    
+    <meta property="article:tag" content="代理" />
+    
+    <meta property="article:tag" content="梯子" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="【转载】"代理中PAC模式和全局模式的区别" | Crlwebby" />
+    
+    <meta name="twitter:description" content="原文地址： 代理软件中PAC模式和全局模式的区别 作者主页 （该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载） 代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结： PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。 全局模式：所有网站都走代理，访问国内网站速度变慢。" />
+    
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/network/proxy/PAC-vs-whole/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BlogPosting","headline":"【转载】\"代理中PAC模式和全局模式的区别\"","mainEntityOfPage":{"@type":"WebPage","@id":"https://crlwebby.github.io/network/proxy/PAC-vs-whole/index.html"},"description":"原文地址： 代理软件中PAC模式和全局模式的区别 作者主页 （该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载） 代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结： PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。 全局模式：所有网站都走代理，访问国内网站速度变慢。","datePublished":"2021-02-09T15:07:11.000Z","dateModified":"2026-06-19T05:49:52.251Z","author":{"@type":"Person","name":"crlwebby"},"publisher":{"@type":"Organization","name":"Crlwebby","logo":{"@type":"ImageObject","url":"https://crlwebby.github.io/favicon.svg"}},"keywords":"转载, 网络, 代理, 梯子"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    
+    <link rel="stylesheet" href="/css/toc.min.css?v=eccfbacd">
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    <div id="progressBar" class="progress-bar" aria-hidden="true"></div>
+    
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <p class="site-title">
+                    <a href="/">Crlwebby</a>
+                </p>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+
+
+
+
+
+
+
+
+<article class="py-2">
+    <header class="text-center mb-8">
+        
+        <h1 class="page-title mb-4" data-pagefind-body data-pagefind-meta="title">
+            【转载】"代理中PAC模式和全局模式的区别"
+        </h1>
+        
+        
+
+
+
+<div class="mb-4 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-09">2021/02/09</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                    <a class="link-muted" href="/categories/network/">network</a>
+                    <span class="text-slate-300">/</span>
+                
+                    <a class="link-muted" href="/categories/network/proxy/">proxy</a>
+                    
+                
+            
+        </div>
+    
+</div>
+
+        
+    </header>
+
+    
+    
+<!-- Inline TOC (small screens < xl) -->
+<nav id="tocInline" class="toc-inline xl:hidden mb-8" aria-label="目录" data-pagefind-ignore>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="tocInlineBody">
+        <span class="toc-toggle-title">目录</span>
+        
+<svg class="toc-chevron size-4 text-slate-500 transition-transform duration-200"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+    </button>
+    <div class="toc-body" id="tocInlineBody" data-open="false"><ul class="toc-list"><li class="toc-item" data-level="2"><a class="toc-link" href="#PAC%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%BE%9D%E6%97%A7%E8%B5%B0%E6%9C%AC%E5%9C%B0%E7%BD%91%E7%BB%9C%EF%BC%8C%E9%80%9F%E5%BA%A6%E5%BF%AB%EF%BC%8C%E7%BB%9D%E5%A4%A7%E9%83%A8%E5%88%86%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E9%83%BD%E8%B5%B0%E4%BB%A3%E7%90%86%EF%BC%8C%E9%80%9F%E5%BA%A6%E4%B9%9F%E5%BF%AB%E3%80%82" data-target="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。">PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E6%A8%A1%E5%BC%8F%EF%BC%9A%E6%89%80%E6%9C%89%E7%BD%91%E7%AB%99%E9%83%BD%E8%B5%B0%E4%BB%A3%E7%90%86%EF%BC%8C%E8%AE%BF%E9%97%AE%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E9%80%9F%E5%BA%A6%E5%8F%98%E6%85%A2%E3%80%82" data-target="全局模式：所有网站都走代理，访问国内网站速度变慢。">全局模式：所有网站都走代理，访问国内网站速度变慢。</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E6%84%9F%E6%83%B3" data-target="个人感想">个人感想</a></li></ul></div>
+</nav>
+
+<!-- Sidebar TOC (xl+ screens) -->
+<nav id="tocSidebar" class="toc-sidebar hidden xl:block" aria-label="目录" data-pagefind-ignore>
+    <div class="toc-sidebar-inner">
+        <p class="toc-sidebar-title">目录</p>
+        <div class="toc-body"><ul class="toc-list"><li class="toc-item" data-level="2"><a class="toc-link" href="#PAC%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%BE%9D%E6%97%A7%E8%B5%B0%E6%9C%AC%E5%9C%B0%E7%BD%91%E7%BB%9C%EF%BC%8C%E9%80%9F%E5%BA%A6%E5%BF%AB%EF%BC%8C%E7%BB%9D%E5%A4%A7%E9%83%A8%E5%88%86%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E9%83%BD%E8%B5%B0%E4%BB%A3%E7%90%86%EF%BC%8C%E9%80%9F%E5%BA%A6%E4%B9%9F%E5%BF%AB%E3%80%82" data-target="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。">PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E6%A8%A1%E5%BC%8F%EF%BC%9A%E6%89%80%E6%9C%89%E7%BD%91%E7%AB%99%E9%83%BD%E8%B5%B0%E4%BB%A3%E7%90%86%EF%BC%8C%E8%AE%BF%E9%97%AE%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E9%80%9F%E5%BA%A6%E5%8F%98%E6%85%A2%E3%80%82" data-target="全局模式：所有网站都走代理，访问国内网站速度变慢。">全局模式：所有网站都走代理，访问国内网站速度变慢。</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E6%84%9F%E6%83%B3" data-target="个人感想">个人感想</a></li></ul></div>
+    </div>
+</nav>
+
+    
+
+    <div class="prose-shiro" data-pagefind-body>
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/milkway2013/article/details/89508290">代理软件中PAC模式和全局模式的区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/milkway2013">作者主页</a></p>
+<p>（该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载）</p>
+<p>代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结：</p>
+<h5 id="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。"><a href="#PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。" class="headerlink" title="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。"></a>PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。</h5><h5 id="全局模式：所有网站都走代理，访问国内网站速度变慢。"><a href="#全局模式：所有网站都走代理，访问国内网站速度变慢。" class="headerlink" title="全局模式：所有网站都走代理，访问国内网站速度变慢。"></a>全局模式：所有网站都走代理，访问国内网站速度变慢。</h5><span id="more"></span>
+<p>区别一：使用流量多少不一样。</p>
+<p>PAC模式：节省流量。</p>
+<p>全局模式：流量消耗较多。</p>
+<p>区别二：运行速度快慢不一样。</p>
+<p>PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。。</p>
+<p>全局模式：所有网站都走代理，访问国内网站速度变慢。</p>
+<p>区别三：访问网站覆盖面不一样。</p>
+<p>PAC模式：少部分国外网站不走代理，无法起到加速效果，甚至无法访问。</p>
+<p>全局模式：可访问全球所有网站。</p>
+<p>区别四：运行原理不一样。</p>
+<p>PAC模式：所有http&#x2F;socks数据经过代理服务器的转发送出。而只有支持socks5或者使用系统代理的软件才能使用Shadowsocks（一般的浏览器都是默认使用系统代理）。</p>
+<p>全局模式：不要求应用程序遵循特定的操作系统平台，只是简单地传递数据包，而不必关心是何种应用协议（比如FTP、HTTP和NNTP请求）。</p>
+<p>区别五：智能程度不一样。</p>
+<p>PAC模式：是智能分流模式，根据规则去匹配你访问的网站，仅加速国外网站，国内网站不受影响，非常智能。</p>
+<p>全局模式：机械的利用设计的程序进行访问网站，所有网站都走代理，智能化程度不高。</p>
+<p><strong>扩展资料：</strong></p>
+<p>Shadowsocks 使用自行设计的协议进行加密通信。加密算法有AES、Blowfish、IDEA、RC4等，除创建TCP连接外无需握手，每次请求只转发一个连接，因此使用起来网速较快，在移动设备上也比较省电。</p>
+<p>所有的流量都经过算法加密，允许自行选择算法，所以比较安全。Shadowsocks 通过异步I&#x2F;O和事件驱动程序运行，响应速度快。</p>
+<p>客户端覆盖多个主流操作系统和平台，包括Windows，OS X，Android和iOS系统和路由器(OpenWrt)等。Shadowsocks 专为移动设备和无线网络优化。</p>
+<h3 id="个人感想"><a href="#个人感想" class="headerlink" title="个人感想"></a>个人感想</h3><p>PAC有许多需要补充的点，从百度百科搜索而来。</p>
+<p><strong>一</strong></p>
+<p>PAC全称Proxy Auto Config，通常是一种代理脚本，包含一个Javascript形式的函数“FindProxyForURL(url,host)”，并用这个函数得到代理规则，然后用户利用这些代理规则设置代理服务器，进行可控制的代理访问，正如大多数梯子用PAC可以不经代理访问国内网站一样的设置。</p>
+<p>Shadowsocks是以后有经济实力后必备的梯子，可以自己定制使用，不用再向现在这样窘迫和不可控了，以后慢慢折腾！</p>
+
+    </div>
+
+    <!-- Tags -->
+    
+    <div class="mt-8 flex flex-wrap gap-2">
+        
+        
+<a href="/tags/%E8%BD%AC%E8%BD%BD/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    转载
+    
+</a>
+
+        
+        
+<a href="/tags/%E7%BD%91%E7%BB%9C/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    网络
+    
+</a>
+
+        
+        
+<a href="/tags/%E4%BB%A3%E7%90%86/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    代理
+    
+</a>
+
+        
+        
+<a href="/tags/%E6%A2%AF%E5%AD%90/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    梯子
+    
+</a>
+
+        
+    </div>
+    
+
+    
+    <!-- Post Navigation: Hexo's page.prev = newer post, page.next = older post -->
+    <div class="section-divider flex justify-between items-center text-sm md:text-base">
+        
+        <a href="/security/crypto/md5/" class="post-nav-link group text-left" title="MD5的基本原理与MD5碰撞">
+             <span aria-hidden="true">&larr;</span>
+             <span class="post-nav-title">MD5的基本原理与MD5碰撞</span>
+        </a>
+        
+
+        
+        <a href="/security/CTF/floor-injection/" class="post-nav-link group text-right" title="【转载】mysql报错注入之floor原理探究">
+            <span class="post-nav-title">【转载】mysql报错注入之floor原理探究</span>
+            <span aria-hidden="true">&rarr;</span>
+        </a>
+        
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+</article>
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    
+    
+    <script defer src="/js/toc.min.js?v=f2791db0"></script>
+    
+    
+    <script defer src="/js/progress.min.js?v=6b058157"></script>
+    
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>

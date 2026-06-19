@@ -1,0 +1,1283 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <title>第 2 页 | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="web security" />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="security,web" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="第 2 页 | Crlwebby" />
+    
+    <meta property="og:description" content="web security" />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/page/2/index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="第 2 页 | Crlwebby" />
+    
+    <meta name="twitter:description" content="web security" />
+    
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/page/2/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+    
+    <link rel="prev" href="https://crlwebby.github.io/" />
+    
+    
+    <link rel="next" href="https://crlwebby.github.io/page/3/" />
+    
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Crlwebby","url":"https://crlwebby.github.io","description":"web security"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    <link rel="stylesheet" href="/css/code.min.css?v=b25e5c93">
+    
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    
+    <div id="backToTopSentinel" class="back-to-top-sentinel" aria-hidden="true"></div>
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <h1 class="site-title">
+                    <a href="/">Crlwebby</a>
+                </h1>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+    
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/development/web/MVC/">【转载】"MVC框架详解"</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-15">2021/02/15</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/development/">development</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <!-- toc -->
+<p>原文地址 ：<a href="">MVC Tutorial for Beginners: What is, Architecture &amp; Example</a></p>
+<h2 id="What-is-MVC-Framework"><a href="#What-is-MVC-Framework" class="headerlink" title="What is MVC Framework?"></a>What is MVC Framework?</h2><p>The <strong>Model-View-Controller (MVC)</strong> framework is an architectural pattern that separates an application into three main logical components Model, View, and Controller. Hence the abbreviation MVC. Each architecture component is built to handle specific development aspect of an application. MVC separates the business logic and presentation layer from each other. It was traditionally used for desktop graphical user interfaces (GUIs). Nowadays, MVC architecture has become popular for designing web applications as well as mobile apps.</p>
+<p>In this tutorial, you will learn more about-</p>
+<ul>
+<li><a href="#2">History of MVC</a></li>
+<li><a href="#3">Features of MVC</a></li>
+<li><a href="#4">MVC Architecture</a></li>
+<li><a href="#5">MVC Examples</a></li>
+<li><a href="#6">Popular MVC web frameworks</a></li>
+<li><a href="#7">Advantages of MVC: Key Benefits</a></li>
+<li><a href="#8">Disadvantages of using MVC</a></li>
+<li><a href="#9">3-tier Architecture vs. MVC Architecture</a></li>
+</ul>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/development/web/MVC/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 【转载】"MVC框架详解"">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/development/web/web-framework/">【转载】"web框架介绍"</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-15">2021/02/15</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/development/">development</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://cizixs.com/2015/09/21/what-is-a-web-framework/">【翻译】什么是 web 框架？</a>（翻译原文地址已失效）</p>
+<p><a target="_blank" rel="noopener" href="https://cizixs.com/">作者主页</a></p>
+<p>Web 应用框架，简称为 <code>web 框架</code>，是编写 web 应用程序的基石。不管简单的博客系统，还是 Ajax 为主的应用，网络上所有的页面都是代码构成的。进来我发现，很多想学习诸如 Flask 或者 Django 等 web 框架的开发者，并不很了解 web 框架是什么，它们的作用和工作原理。这篇文章，我将会讲一下这个通常会被忽略的话题。希望读完这篇文章，你能比较深刻地理解 web 框架到底是什么，还有为什么会有 web 框架。这些知识将有利于你学习新的 web 框架，而且在选择 web 框架的时候有法可依。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/development/web/web-framework/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 【转载】"web框架介绍"">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/crypto/md5/">MD5的基本原理与MD5碰撞</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-11">2021/02/11</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/forgotaboutgirl/article/details/7258109">MD5算法原理</a></p>
+<p>MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。</p>
+<p>MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信息不可逆。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/crypto/md5/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: MD5的基本原理与MD5碰撞">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/network/proxy/PAC-vs-whole/">【转载】"代理中PAC模式和全局模式的区别"</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-09">2021/02/09</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/network/">network</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/milkway2013/article/details/89508290">代理软件中PAC模式和全局模式的区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/milkway2013">作者主页</a></p>
+<p>（该作者文章也是转载，但是没用标明原作者是谁或者原文链接……于是只能这样，转载的转载）</p>
+<p>代理模式常见的模式有PAC模式和全局模式，那么这二者的差别是什么呢？一句话总结：</p>
+<h5 id="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。"><a href="#PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。" class="headerlink" title="PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。"></a>PAC模式：国内网站依旧走本地网络，速度快，绝大部分国外网站都走代理，速度也快。</h5><h5 id="全局模式：所有网站都走代理，访问国内网站速度变慢。"><a href="#全局模式：所有网站都走代理，访问国内网站速度变慢。" class="headerlink" title="全局模式：所有网站都走代理，访问国内网站速度变慢。"></a>全局模式：所有网站都走代理，访问国内网站速度变慢。</h5>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/network/proxy/PAC-vs-whole/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 【转载】"代理中PAC模式和全局模式的区别"">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/CTF/floor-injection/">【转载】mysql报错注入之floor原理探究</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-02">2021/02/02</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>原文地址 ：<a target="_blank" rel="noopener" href="https://www.freebuf.com/column/235496.html">Mysql报错注入之floor(rand(0)*2)报错原理探究</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%B0%8F%E5%8C%97%E5%90%8C%E5%AD%A6hzk">作者首页</a></p>
+<h3 id="一、简述"><a href="#一、简述" class="headerlink" title="一、简述"></a>一、简述</h3><p>floor报错注入是利用 &#96;select count(*),(floor(rand(0)*2)) x from users group by x&#96;&#96;&#96;这个相对固定的语句格式，导致的数据库报错。实际利用中通过 concat 函数，连接注入语句与 floor(rand(0)*2)函数，就实现了注入结果与报错信息回显的注入方式。具体利用本文不做阐述，本文重点探究该语句报错的原因，要理解该语句的报错原因，首先大家需要理解如下的关键函数的作用： count() 、group by 、floor()、rand()。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/CTF/floor-injection/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 【转载】mysql报错注入之floor原理探究">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/CTF/buuctf-web-1/">buuctf_web_1</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-11-24">2020/11/24</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>​		再开一个坑……算是刷buuctf系列的一个开篇吧。题目就这样随意过去了，主要是有些知识点进行记录，怕以后忘了。</p>
+<h5 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="GXYCTF2019 Ping Ping Ping"></a>GXYCTF2019 Ping Ping Ping</h5><p>​		进去以后有提示用get输入IP，结合题目来看应该是命令执行。输入?ip&#x3D;127.0.0.1;ls后验证猜想，用分号使得一句多行shell命令。</p>
+<p>​		后来测试发现，空格和flag都被过滤了，无奈搜WP，发现IFS这个神奇的东西，于是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload:?ip=127.0.0.1;cat$IFS$1index.php</span><br></pre></td></tr></table></figure>
+
+<p>解释一下IFS是个什么东西吧。</p>
+<blockquote>
+<p>IFS    The Internal Field Separator that is used for word splitting after expansion and to split lines into words with the read builtin command.   The  default  value  is  &#96;&#96;<space><tab>&lt;new‐<br>              line&gt;’’.</p>
+</blockquote>
+<p>也就是说，IFS是个分隔符，可以用于在表达式或行之间进行分割。默认的三个值是空格、tab、换行。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/CTF/buuctf-web-1/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: buuctf_web_1">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/crypto/RSA-details/">RSA详解</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-11-06">2020/11/06</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h1 id="RSA-details"><a href="#RSA-details" class="headerlink" title="RSA details"></a>RSA details</h1><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>​		日常自闭&#x3D;。&#x3D;，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>​		先把RSA怎么用给写出来，具体的后面可以慢慢解释<br>$$<br>首先是选取两个大质数p和q，然后计算p*q&#x3D;n\tag{Q1}<br>$$</p>
+<p>$$<br>和(p-1)*(q-1)&#x3D;\phi(N)\tag{Q2}<br>$$</p>
+<p>$$<br>选取整数e（即公钥），使得e满足1&lt;e&lt;\phi(N),(e,\phi(n))&#x3D;1\tag{Q3}<br>$$</p>
+<p>$$<br>则存在整数d（即私钥），使得ed\equiv1\pmod{\phi(N)} \tag{Q4}<br>$$</p>
+<p>PS: d也是e在某某里的逆元，这部分群环域的内容忘得差不多了。。。<br>$$<br>加密：：此时有明文m,使用公钥e进行加密，得到密文c(cipher)，c&#x3D;m^e\pmod{n}<br>$$</p>
+<p>$$<br>解密：：此时有密文c，使用私钥d进行解密，得到明文m(message),m&#x3D;c^d\pmod{n}\tag{Q5}<br>$$</p>
+<p>这就是整体的使用流程，当然，这里有非常多的细节没有展示，仅仅是下次要用的时候急着拿来用罢了，不仅看客看不懂，我写的也云里雾里：凭什么啊？</p>
+<table>
+<thead>
+<tr>
+<th>Q</th>
+<th>question_detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="">Q1</a></td>
+<td>涉及到RSA的根本原理，即大数分解问题：已知p、q，计算n很容易，但由n计算p、q非常困难</td>
+</tr>
+<tr>
+<td><a href="">Q2</a></td>
+<td>phi(N)是干什么用的？</td>
+</tr>
+<tr>
+<td><a href="">Q3</a></td>
+<td>为什么要(e,phi(N))&#x3D;1?</td>
+</tr>
+<tr>
+<td><a href="">Q4</a></td>
+<td>为什么存在d？如果存在，要如何计算d？</td>
+</tr>
+<tr>
+<td><a href="">Q5</a></td>
+<td>为什么能够顺利解密？</td>
+</tr>
+</tbody></table>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/crypto/RSA-details/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: RSA详解">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/CTF/Hackergame_2020_Writeup/">Hackergame 2020 Writeup</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-11-03">2020/11/03</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="Hackergame-2020-Writeup"><a href="#Hackergame-2020-Writeup" class="headerlink" title="Hackergame 2020 Writeup"></a>Hackergame 2020 Writeup</h3><p>​		科大新生赛……不得不说自己就是菜啊。除了第一天是周六来得早，上波分最高到了四五十名，后面知识水平完全就跟不上，直接落到四五百名&#x3D;。&#x3D;（time:11.3 22:29)</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h5 id="超简单的世界模拟器"><a href="#超简单的世界模拟器" class="headerlink" title="超简单的世界模拟器"></a>超简单的世界模拟器</h5><p>​		真是“超简单”的呢……当然，这题我估计大家的做法也都差不多。生命游戏很有意思，但这题本身感觉很无聊，单纯为了随手记录一下没见过的东西</p>
+<p>​		总之，给出一个15*15的矩阵，画生命游戏图，然后上网找一下就有了，具体啥也都忘了，就疯狂找图，然后胡乱测试，就做出来了23333。</p>
+<h5 id="233同学的Docker"><a href="#233同学的Docker" class="headerlink" title="233同学的Docker"></a>233同学的Docker</h5><p>​		这题是我写WP的动力，研究了老半天总算搞定了，还从零攒了点docker的基础。</p>
+<p>​		基础我也就不说了吧……直接开始，反正记录的是一些找的比较辛苦的资料。</p>
+<p>​		拉下仓库后，docker history 可以看见flag.txt的删除记录</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/CTF/Hackergame_2020_Writeup/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: Hackergame 2020 Writeup">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/CTF/sqli-page1/">SQL注入靶场1</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-09-26">2020/09/26</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h3><p>​		原本是用docker装的sqlib靶场，但是后来发现看源码有点麻烦，干脆还是localhost本地弄了。然后本地是xampp一体的环境，PHP版本与sqlib有点不匹配，就是原本是mysql的函数要全部换成mysqli，此外自己还把输入的SQL语句打印了出来便于理解，所以显示有些差异。</p>
+<p>​		此外，这篇文章更多的是依据现有的sqlib的writeup写的，前半段因为不熟悉，更多偏重于对别人的payload的理解，仅用于记录感想。</p>
+<p>​		【】标记代表知识点模糊，暂时还不能给出合理让人信服的答案，也许以后会填坑&#x3D;。&#x3D;</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/CTF/sqli-page1/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: SQL注入靶场1">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/basic/OS/OS-30-days-3/">自制操作系统-day3</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-08-12">2020/08/12</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/basic/">basic</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        
+    </div>
+    
+</article>
+
+
+        
+    
+    
+
+    
+<section class="mt-8 md:mt-10" aria-label="分页导航">
+    <nav class="pagination flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm md:text-base font-medium">
+        <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    </nav>
+</section>
+
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+    <button id="backToTop" type="button" class="back-to-top" data-visible="false" aria-label="回到顶部">
+        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        
+        window.__i18n["clipboard"] = {"copied":"已复制","copy":"复制代码"};
+        window["__clipboardScript"] = "/js/clipboard.min.js?v=398448ef";
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    
+    <script defer src="/js/clipboard-bootstrap.min.js?v=ee68f730"></script>
+    
+    
+    
+    
+    <script defer src="/js/back-to-top.min.js?v=cebd24d7"></script>
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,1234 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <title>第 3 页 | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="web security" />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="security,web" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="第 3 页 | Crlwebby" />
+    
+    <meta property="og:description" content="web security" />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/page/3/index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="第 3 页 | Crlwebby" />
+    
+    <meta name="twitter:description" content="web security" />
+    
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/page/3/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+    
+    <link rel="prev" href="https://crlwebby.github.io/page/2/" />
+    
+    
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Crlwebby","url":"https://crlwebby.github.io","description":"web security"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    
+    <div id="backToTopSentinel" class="back-to-top-sentinel" aria-hidden="true"></div>
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <h1 class="site-title">
+                    <a href="/">Crlwebby</a>
+                </h1>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+    
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/security/Web/web_security_before/">白帽子讲Web安全-前言</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-07-14">2020/07/14</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/security/">security</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>（本系列不属于教程，仅供作者本人复习参考，有不足之处欢迎指出） 黑客精神 ​ 最初的启蒙时代，以好奇心与求知欲为前进动力的初代黑客们，崇尚分享、自由、免费； ​ 黄金时代，以中美黑客大战为标志，黑客的独特魅力吸引了无数青少年学习； ​ 黑暗时代，安全产业发展以后，功利性质更加强，黑客精神消亡。 技术发展历程 ​ 最初大多是以攻击系统软件获取权限，虽然我不明白这是如何做到的。 ​...</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/security/Web/web_security_before/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 白帽子讲Web安全-前言">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/basic/OS/OS-30-days-2/">自制操作系统-day2</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-07-14">2020/07/14</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/basic/">basic</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="内容简介"><a href="#内容简介" class="headerlink" title="内容简介"></a>内容简介</h3><p>汇编的一些基础知识、makefile</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><h6 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h6><p>​		<img src="http://crlwebby.top/img/20180703105056497" decoding="async" loading="lazy" fetchpriority="auto"></p>
+<p>​		先是介绍了这些寄存器，通用寄存器和段寄存器都是16位的。</p>
+<p>​		在此基础之上，还将4个数据寄存器分成8个8位寄存器，分法如下：</p>
+<p>​		<img src="http://crlwebby.top/img/TIM%E6%88%AA%E5%9B%BE20200714083748.png" decoding="async" loading="lazy" fetchpriority="auto"><br>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/basic/OS/OS-30-days-2/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 自制操作系统-day2">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/about/about-2020/">自我介绍</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-07-12">2020/07/12</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/about/">about</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>基本信息： HDU在读；爱跑步爱网球；偶尔看番；日常丧；内心敏感脆弱；人际交往能力堪忧 目前状况： 学计算机为了恰饭，但也不甘心只做一个普通码农，心里还有点梦想； 我的心理脆弱，容易自我影响容易受他人影响变得自闭，正在企图通过读书改善； 我的体育很弱鸡，希望跑步+健身+网球三位一体提高自己的运动能力； 我的脑中没有什么思想，也没看过太多的书，基本上是一个很浅薄的人，不懂史不懂哲不懂政治；...</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/about/about-2020/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 自我介绍">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/basic/OS/OS-30-days-1/">自制操作系统-day1</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-07-09">2020/07/09</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/basic/">basic</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="内容简介"><a href="#内容简介" class="headerlink" title="内容简介"></a>内容简介</h3><p>​		纯二进制输入内容生成一个.img镜像系统，输出hello world；</p>
+<p>​		使用作者给定的软件工具包，进行软盘模拟等等；</p>
+<p>​		简单汇编指令，如DB、RESB、DW、DD</p>
+<p>​		一些术语：TAB&#x3D;4、FAT12格式、启动区、IPL、启动（boot）</p>
+<h3 id="镜像文件"><a href="#镜像文件" class="headerlink" title="镜像文件"></a>镜像文件</h3><p>​		不知道为啥我总是会把.img当成一种图片格式……</p>
+<p>​
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/basic/OS/OS-30-days-1/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 自制操作系统-day1">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/basic/OS/OS-30-days-before/">三十天自制操作系统-前言</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-07-08">2020/07/08</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/basic/">basic</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>​		这个暑假也没啥事情，也刚刚学了操作系统和计组，但总觉得不对味，想起来以前的这本书，打算跟着做一下。希望能有所收获，最好能够看完它。哪怕只是看懂代码而没有自己动手写，我觉得都是收获颇丰的。</p>
+<h3 id="预备知识与内容"><a href="#预备知识与内容" class="headerlink" title="预备知识与内容"></a>预备知识与内容</h3><p>​		前言的篇幅只有十页，但是可以展现出自制操作系统的难度有多大，远比OS实验课上写的小玩具要困难的多。这里首先的一点就是，使用何种编程语言？要知道，我们平时使用的编译器都是在操作系统之上的。</p>
+<p>​		作者给了一个很好的例子。</p>
+<p>​		C语言作为最简洁的语言，没有特别多的库函数依赖，没有很多杂七杂八的新特性，简单纯粹。但是即便如此，比如你要使用最常见的函数printf()，也是通过操作系统控制的I&#x2F;O操作实现的，而我们要写的就是操作系统，总不能利用一个OS的功能去实现另一个吧……</p>
+<p>​		按作者所讲，这个30天的旅程，要学习汇编、CPU结构、编译原理。当然，不是说都要学，而是作者筛选过的，恰好需要的部分知识去学习。而且巧了，我寒假学了点汇编，这学期学了操作系统、计组、编译原理。不在此时此刻去体验一下，把这些东西融会贯通，我自己都觉得很可惜。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/basic/OS/OS-30-days-before/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 三十天自制操作系统-前言">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/jotting/see_you_again/">再次见面</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-06-09">2020/06/09</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/jotting/">jotting</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>再见不易 ​ 折腾了两天，这个博客总算是又复活了。为什么折腾呢？嗯……为什么要折腾呢…… ​ 折腾虽然折腾，但是比起学课内的东西还是快乐的多啊。课内东西学着学着烦了，不想弄了，想起来自己的博客还半死不活的，复活她，暑假好好利用，岂不美哉？ ​...</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/jotting/see_you_again/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 再次见面">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/jotting/summary_National_day/">国庆总结</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2019/" class="oldstyle-nums link-muted"><time datetime="2019-10-08">2019/10/08</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/jotting/">jotting</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p><strong>起因</strong>：打网球时心情低落，晚上拉伸时心情爆炸。</p>
+<p><strong>目的</strong>：梳理心情，总结国庆得失；规划目标，为下一阶段做打算。</p>
+<p>心情的低落是从下午打球开始的。或许是因为没有搭档拉球；或许因为没有小姐姐看；或许因为连续打球好几天有些疲乏；或许因为打球水平太低；或许因为担心姿势问题带来伤病。我担心的事情有很多，担心这个担心那个，打球不用心，最后不仅毫无效果，上述的问题也都会接连出现。<strong>胡思乱想是罪魁祸首</strong>。</p>
+<p>晚上则更是对自己的暴击了，效果卓群。</p>
+<p>想来想去，今天过得好像很舒服，又好像很努力，但好像什么用也没有。归根到底，还是我仍没有掌握一门可以吃饭的手艺，没有底气面对两年半后的社会。</p>
+<p><strong>我怕我成为方鸿渐</strong></p>
+<p>方鸿渐我记得别人评价他好像有这样一句话：你是个好人，但是一无是处。</p>
+<p>我真不想像他那样。读书多，懂得道理多，会做人，但仍然生活极为落魄，而且不是才华无处安放的落魄，是什么都不会的穷酸书生的窘迫。以我之前的目标：</p>
+<blockquote>
+<p>从事安全，拓展技术。<br>数学其次，等同健身。<br>不废文学，不废英语。</p>
+</blockquote>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/jotting/summary_National_day/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 国庆总结">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/jotting/summary_Sept/">九月份总结</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2019/" class="oldstyle-nums link-muted"><time datetime="2019-09-28">2019/09/28</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/jotting/">jotting</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>这个月其实并没有我暑假所预测的那样充实，不过也在预料之中，毕竟改变是困难的，一个习惯性做废物的人怎么可能一个月就彻底抛弃过去呢？...</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/jotting/summary_Sept/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 九月份总结">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/language/C-plus-plus/C++_lambda/">C++匿名函数（Lambda函数）介绍</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2019/" class="oldstyle-nums link-muted"><time datetime="2019-08-28">2019/08/28</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/language/">language</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>起因在于看别人C++题解的时候遇见一段代码(leetcode 451 Sort Characters By Frequency) sort(s.begin(),s.end(),[&amp;](char a, char b){ return count[a]&gt;count[b]||count[a]==count[b]&amp;&amp;a&lt;b; });...</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/language/C-plus-plus/C++_lambda/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: C++匿名函数（Lambda函数）介绍">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+            
+<div class="my-8 flex items-center justify-center gap-3" aria-hidden="true">
+    <div class="h-px flex-1 bg-linear-to-r from-transparent to-slate-300 max-w-divider"></div>
+    <svg class="h-4 w-10 shrink-0 text-slate-300" viewBox="0 0 40 10">
+        <circle cx="20" cy="5" r="3" fill="currentColor" opacity="0.9" />
+        <circle cx="4" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+        <circle cx="36" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
+    </svg>
+    <div class="h-px flex-1 bg-linear-to-l from-transparent to-slate-300 max-w-divider"></div>
+</div>
+
+        
+    
+        
+<article class="py-2">
+    <header class="text-center mb-4">
+        <h2 class="font-bold leading-snug text-slate-900 text-[1.35rem] transition-colors hover:text-seal sm:text-[1.45rem] md:text-[1.6rem]">
+            <a href="/jotting/before-_term_begins/">开学倒数第二周</a>
+        </h2>
+        
+
+
+
+<div class="mt-2 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2019/" class="oldstyle-nums link-muted"><time datetime="2019-08-25">2019/08/25</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                <a class="link-muted" href="/categories/jotting/">jotting</a>
+            
+        </div>
+    
+</div>
+
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="prose-shiro">
+        <p>惭愧惭愧，一个暑假过的不像个人样，颓废深入到了骨子里，似乎已经习惯了不学习这件事情了。迫切希望自己能变得更强。</p>
+<p>参考了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/">Angel_Kitty</a>大佬，发现原来博客能玩出花来，原来学习用博客来反馈是这样一件有趣的事情，原来大学可以变得这么丰富多彩……我也想参考TA的周总结，给自己每周一个警醒，记录自己一周都干了哪些事情。</p>
+<p>概要：</p>
+<blockquote>
+<p>学习情况</p>
+<p>体育锻炼</p>
+<p>世界观和方法论</p>
+</blockquote>
+<p><strong>学习情况</strong></p>
+<p>要说学习，本周确实没有干什么事情。不光是leetcode刷题根本未曾提上日程，即使是仅与学习相关的内容，诸如寻找电子书资料亦或者是学习计划安排什么的都未曾有过，这周实实在在的一个咸鱼。</p>
+<p><strong>体育锻炼</strong></p>
+<p>硬要说的话，也就两次十几公里的骑行让我感到自己是在锻炼，此外便于锻炼无缘了。囚徒健身稍微看了一点，虽然对于健身房贬低的一无是处这种观点很令人反感，但这个健身的目的倒是与我的观点蛮符合的，大概也类似于街健吧，做一些诸如单手引体、倒立、空翻之类的动作是我的终极目标，我不是很喜欢大块头的肌肉，但热衷于做到这些动作，让自己变得灵活。此外，囚徒的健身体系，每个等级都以做到某些动作多少组多少次为界限进行下一组的训练，这种等级提升的东西也很能吸引我坚持下去，我希望能照着这本书坚持下去。</p>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <a href="/jotting/before-_term_begins/"
+            class="focus-elegant btn-ink"
+            aria-label="阅读更多: 开学倒数第二周">
+            阅读更多
+        </a>
+    </div>
+    
+</article>
+
+
+        
+    
+    
+
+    
+<section class="mt-8 md:mt-10" aria-label="分页导航">
+    <nav class="pagination flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm md:text-base font-medium">
+        <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
+</section>
+
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+    <button id="backToTop" type="button" class="back-to-top" data-visible="false" aria-label="回到顶部">
+        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    
+    
+    
+    
+    <script defer src="/js/back-to-top.min.js?v=cebd24d7"></script>
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>

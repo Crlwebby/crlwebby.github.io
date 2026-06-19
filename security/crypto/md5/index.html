@@ -1,0 +1,717 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Warm the CDN connection so the lightbox assets download instantly on first interaction. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- Prefetch the LightGallery JS/CSS and same-origin wrapper at lowest priority so the lightbox
+         opens instantly on the first tap, even on touch devices with no hover to warm on.
+         crossorigin matches the SRI requests; keep lightgallery@<version> in sync with lightgallery.js. -->
+    <link rel="prefetch" as="script" href="https://cdn.jsdelivr.net/npm/lightgallery@2.9.0/lightgallery.min.js" crossorigin />
+    <link rel="prefetch" as="style" href="https://cdn.jsdelivr.net/npm/lightgallery@2.9.0/css/lightgallery.min.css" crossorigin />
+    <link rel="prefetch" as="script" href="/js/lightgallery.min.js?v=ca1f9479" />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    <title>MD5的基本原理与MD5碰撞 | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="摘要 最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。 正文 MD5算法原理 MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。 MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信..." />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="CTF, 密码学, MD5" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="MD5的基本原理与MD5碰撞 | Crlwebby" />
+    
+    <meta property="og:description" content="摘要 最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。 正文 MD5算法原理 MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。 MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信..." />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/security/crypto/md5/index.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    <meta property="og:image" content="https://crlwebby.github.io/img/post/md5/principle.png" />
+    <meta property="og:image:alt" content="MD5的基本原理与MD5碰撞 | Crlwebby" />
+    
+    
+    <meta property="og:image:width" content="769" />
+    <meta property="og:image:height" content="361" />
+    
+    
+    
+    
+    <meta property="article:published_time" content="2021-02-11T03:31:30.000Z" />
+    
+    
+    <meta property="article:modified_time" content="2026-06-19T05:49:52.249Z" />
+    
+    
+    <meta property="article:author" content="crlwebby" />
+    
+    
+    
+    <meta property="article:tag" content="CTF" />
+    
+    <meta property="article:tag" content="密码学" />
+    
+    <meta property="article:tag" content="MD5" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MD5的基本原理与MD5碰撞 | Crlwebby" />
+    
+    <meta name="twitter:description" content="摘要 最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。 正文 MD5算法原理 MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。 MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信..." />
+    
+    
+    <meta name="twitter:image" content="https://crlwebby.github.io/img/post/md5/principle.png" />
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/security/crypto/md5/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BlogPosting","headline":"MD5的基本原理与MD5碰撞","mainEntityOfPage":{"@type":"WebPage","@id":"https://crlwebby.github.io/security/crypto/md5/index.html"},"description":"摘要 最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。 正文 MD5算法原理 MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。 MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信...","image":["https://crlwebby.github.io/img/post/md5/principle.png"],"datePublished":"2021-02-11T03:31:30.000Z","dateModified":"2026-06-19T05:49:52.249Z","author":{"@type":"Person","name":"crlwebby"},"publisher":{"@type":"Organization","name":"Crlwebby","logo":{"@type":"ImageObject","url":"https://crlwebby.github.io/favicon.svg"}},"keywords":"CTF, 密码学, MD5"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    <link rel="stylesheet" href="/css/code.min.css?v=b25e5c93">
+    
+    
+    <link rel="stylesheet" href="/css/toc.min.css?v=eccfbacd">
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800" data-shiro-lightgallery="true">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    <div id="progressBar" class="progress-bar" aria-hidden="true"></div>
+    
+    
+    <div id="backToTopSentinel" class="back-to-top-sentinel" aria-hidden="true"></div>
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <p class="site-title">
+                    <a href="/">Crlwebby</a>
+                </p>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+
+
+
+
+
+
+
+
+<article class="py-2">
+    <header class="text-center mb-8">
+        
+        <h1 class="page-title mb-4" data-pagefind-body data-pagefind-meta="title">
+            MD5的基本原理与MD5碰撞
+        </h1>
+        
+        
+
+
+
+<div class="mb-4 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2021/" class="oldstyle-nums link-muted"><time datetime="2021-02-11">2021/02/11</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                    <a class="link-muted" href="/categories/security/">security</a>
+                    <span class="text-slate-300">/</span>
+                
+                    <a class="link-muted" href="/categories/security/crypto/">crypto</a>
+                    
+                
+            
+        </div>
+    
+</div>
+
+        
+    </header>
+
+    
+    
+<!-- Inline TOC (small screens < xl) -->
+<nav id="tocInline" class="toc-inline xl:hidden mb-8" aria-label="目录" data-pagefind-ignore>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="tocInlineBody">
+        <span class="toc-toggle-title">目录</span>
+        
+<svg class="toc-chevron size-4 text-slate-500 transition-transform duration-200"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+    </button>
+    <div class="toc-body" id="tocInlineBody" data-open="false"><ul class="toc-list"><li class="toc-item" data-level="0"><a class="toc-link" href="#%E6%91%98%E8%A6%81" data-target="摘要">摘要</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E6%AD%A3%E6%96%87" data-target="正文">正文</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#MD5%E7%AE%97%E6%B3%95%E8%BF%87%E7%A8%8B%EF%BC%9A" data-target="MD5算法过程：">MD5算法过程：</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#MD5%E6%88%AA%E6%96%AD%E6%94%BB%E5%87%BB" data-target="MD5截断攻击">MD5截断攻击</a></li></ul></div>
+</nav>
+
+<!-- Sidebar TOC (xl+ screens) -->
+<nav id="tocSidebar" class="toc-sidebar hidden xl:block" aria-label="目录" data-pagefind-ignore>
+    <div class="toc-sidebar-inner">
+        <p class="toc-sidebar-title">目录</p>
+        <div class="toc-body"><ul class="toc-list"><li class="toc-item" data-level="0"><a class="toc-link" href="#%E6%91%98%E8%A6%81" data-target="摘要">摘要</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E6%AD%A3%E6%96%87" data-target="正文">正文</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#MD5%E7%AE%97%E6%B3%95%E8%BF%87%E7%A8%8B%EF%BC%9A" data-target="MD5算法过程：">MD5算法过程：</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#MD5%E6%88%AA%E6%96%AD%E6%94%BB%E5%87%BB" data-target="MD5截断攻击">MD5截断攻击</a></li></ul></div>
+    </div>
+</nav>
+
+    
+
+    <div class="prose-shiro" data-pagefind-body>
+        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>最近做CTF题目的时候又遇见了MD5碰撞，但是依然不懂那个所谓的可能性是如何计算出来的，于是打算自己花一两个小时的时间，把MD5的原理稍稍的梳理一下。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/forgotaboutgirl/article/details/7258109">MD5算法原理</a></p>
+<p>MD5是全称是Message-Digest Algorithm5（信息-摘要算法），由MD2、MD3、MD4发展而来的公开算法。</p>
+<p>MD5是一种哈希算法，任意长度的输入经过处理后输出为128位的信息，且尽量使结果不冲突和信息不可逆。</p>
+<span id="more"></span>
+<h5 id="MD5算法过程："><a href="#MD5算法过程：" class="headerlink" title="MD5算法过程："></a>MD5算法过程：</h5><p>MD5以512位为一个分组处理输入，每个分组分成16个32位的子分组，经过处理后，输出四个32位分组，这四个32位分组级联后生成一个128位的MD5值。</p>
+<p>一、填充：如果输入信息长度（以bit记）模512不余448，那就要对输入信息进行填充，填充一个1和若干个0，使得信息长度变成512*N+448，<strong>若消息长度本身即为448，仍要填充512位，使其长度变成960</strong></p>
+<p>二、记录：用64位记录输入信息的长度，然后添加到第一步的信息中，形成（N+1）*512的信息；</p>
+<p>三、装入默认值：A&#x3D;0x01234567,B&#x3D;0x89ABCDEF,C&#x3D;0xFEDCBA98,D&#x3D;0x76543210。这里每个缓存均为32位（16进制四位，八个数）</p>
+<p>四、分组：将512一组的数据进行分组，分成16个32位的子分组，将与幻数进行循环运算。</p>
+<p>五、循环运算：这里借用一张MD5原理图进行说明</p>
+<p><img src="/img/post/md5/principle.png" alt="MD5原理图" decoding="async" loading="eager" fetchpriority="high" width="769" height="361"></p>
+<p>A、B、C、D四个寄存器默认的值进行运算，获得A‘，B’，C‘，D’，这是一步的运算。对于每一个分组512bit的消息，均要进行四轮，每轮十六步的运算，得到这一分组的128位结果，然后再以这个结果存入寄存器，作为下一组分组的初始值，直到最后一组的结果，即为MD5值。</p>
+<p><img src="/img/post/md5/function.png" alt="逻辑函数" decoding="async" loading="lazy" fetchpriority="auto" width="470" height="163"></p>
+<p>图为四个逻辑函数，即MD5原理图中的“F”，四轮即分别使用四个函数，每个函数使用十六次。</p>
+<p>第一轮用F，第二轮用G，第三轮用H，第四轮用I</p>
+<p>MD5原理图中的田字表示的是模2^32加法，为的是F的结果与A运算后仍为32位。</p>
+<p>Mi即为分组的消息，最初是分成512一组，然后再分到组内32bit一组共16组，每一轮16步，要将16组消息全部用上。</p>
+<p>第一轮中使用顺序为<br>$$<br>P_1(i)&#x3D;i<br>$$</p>
+<p>即i为多少就用第几个分组</p>
+<p>第二轮中使用顺序为<br>$$<br>P_2(i)&#x3D;(1 + 5i)\mod 16<br>$$<br>由于3、5、7、11、13与16互质，因此当i遍历1-16时，1+k*i是一个完全剩余系，即同样遍历1-16没有重复</p>
+<p>第三轮中使用顺序为<br>$$<br>P_3(i)&#x3D;(5 + 3i)\mod 16<br>$$<br>第四轮中使用顺序为<br>$$<br>P_3(i)&#x3D;7i\mod 16<br>$$<br>ki是固定常数，当然也可以通过计算获得。</p>
+<p><img src="/img/post/md5/ki.png" alt="ki" decoding="async" loading="lazy" fetchpriority="auto" width="1406" height="945"></p>
+<p>在MD5原理图中，最后再次与B做模加运算之前，还有一次循环左移。这个也是有规定的</p>
+<p><img src="/img/post/md5/circle_shift.png" alt="circle_shift" decoding="async" loading="lazy" fetchpriority="auto" width="1413" height="368"></p>
+<p>PS：图均来自于我们杭电伟大的胡耿然老师的密码学ppt，吹爆！</p>
+<p>至此，MD5的原理就全部讲解完毕。个人懒而且菜，没有尝试去实现MD5算法，无法贴源码&#x2F;(ㄒoㄒ)&#x2F;~~</p>
+<h4 id="MD5截断攻击"><a href="#MD5截断攻击" class="headerlink" title="MD5截断攻击"></a>MD5截断攻击</h4><p>下面进入正题，继续研究MD5截断。</p>
+<p>Code: md5(code)[:6] &#x3D;&#x3D;d131dd</p>
+<p>MD5截断诸如此类，需要你提供一个字符串code，然后通过md5计算并截取前N位字符，使得其与给定的md5字符相同。</p>
+<p>据我查阅得，大多数MD5截断的CTF姿势都是暴力，当然我也没有看过传说人物王小云的文章，也只能跟随着暴力……只是因为困惑于可能性的多少，所以写这篇文章探索一下。</p>
+<p>MD5一般是一个128位的二进制序列，但是大多数MD5为了方便显示，通常写成16进制形式，即32位十六进制数。如果需要截取前N个，再加上十六进制的可能性为2^4，那就是2^4N种可能。对于这个六位的形式，粗略估计应该有一两千万种可能性。所以，如果写一个脚本，生成超过三千万的MD5值，应该可以找到任意前六位与给定字符相同的原字符。大概三千万*128bit，粗略估计就是3.57G……</p>
+<p>还是精确计算吧。2^24*2^7&#x2F;2^30&#x3D;2，就是2G。再加上要存储对应的原字符，差不多3G左右的文本肯定够了。</p>
+<p>附一段网上的脚本：<a target="_blank" rel="noopener" href="https://michaelwayneliu.github.io/2018/08/28/%E3%80%90CTF%E3%80%91MD5%E6%88%AA%E6%96%AD%E6%AF%94%E8%BE%83/">参考链接：【CTF】MD5截断比较</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="built_in">sum</span> = []</span><br><span class="line">j = <span class="number">0</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;gen_md5.txt&quot;</span>, <span class="string">&quot;a&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1000000000</span>):</span><br><span class="line">    tmp = (hashlib.md5(<span class="built_in">str</span>(i).encode(<span class="string">&quot;utf-8&quot;</span>)).hexdigest(),i)</span><br><span class="line">    <span class="built_in">sum</span>.append(tmp)</span><br><span class="line">    j = j+<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span>(j==<span class="number">10000000</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">sum</span>:</span><br><span class="line">            f.write(<span class="string">&quot;&#123;0&#125; &#123;1&#125;&quot;</span>.<span class="built_in">format</span>(i,<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">        j=<span class="number">0</span></span><br><span class="line">        <span class="built_in">sum</span> = []</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p>解释：对数字1-10亿（丧心病狂的十亿爆破……）的哈希值计算，并将计算结果存储在gen_md5.txt里</p>
+<p>由于可能存在哈希碰撞，所以理论上来说，数据还是要设的比2^24要大一些的，但这个一百倍……反正我还没有把结果跑出来过，反而跑炸了一次，CPU 100%卡死了……</p>
+<p>寻找结果的话就自己写Python脚本或者用cat命令吧，打死也不可能用txt打开的，内存放3G文本受不了……</p>
+
+    </div>
+
+    <!-- Tags -->
+    
+    <div class="mt-8 flex flex-wrap gap-2">
+        
+        
+<a href="/tags/CTF/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    CTF
+    
+</a>
+
+        
+        
+<a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    密码学
+    
+</a>
+
+        
+        
+<a href="/tags/MD5/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    MD5
+    
+</a>
+
+        
+    </div>
+    
+
+    
+    <!-- Post Navigation: Hexo's page.prev = newer post, page.next = older post -->
+    <div class="section-divider flex justify-between items-center text-sm md:text-base">
+        
+        <a href="/development/web/web-framework/" class="post-nav-link group text-left" title="【转载】"web框架介绍"">
+             <span aria-hidden="true">&larr;</span>
+             <span class="post-nav-title">【转载】"web框架介绍"</span>
+        </a>
+        
+
+        
+        <a href="/network/proxy/PAC-vs-whole/" class="post-nav-link group text-right" title="【转载】"代理中PAC模式和全局模式的区别"">
+            <span class="post-nav-title">【转载】"代理中PAC模式和全局模式的区别"</span>
+            <span aria-hidden="true">&rarr;</span>
+        </a>
+        
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+</article>
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+    <button id="backToTop" type="button" class="back-to-top" data-visible="false" aria-label="回到顶部">
+        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        window.__i18n["gallery"] = {"view_image":"查看图片","visit_source":"查看原始链接"};
+        window["__lightgalleryThemeCss"] = "/css/lightgallery.min.css?v=9d4e2b16";
+        window["__lightgalleryScript"] = "/js/lightgallery.min.js?v=ca1f9479";
+        
+        
+        window.__i18n["clipboard"] = {"copied":"已复制","copy":"复制代码"};
+        window["__clipboardScript"] = "/js/clipboard.min.js?v=398448ef";
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    <script defer src="/js/lightgallery-bootstrap.min.js?v=1f23339c"></script>
+    
+    
+    <script defer src="/js/clipboard-bootstrap.min.js?v=ee68f730"></script>
+    
+    
+    <script defer src="/js/toc.min.js?v=f2791db0"></script>
+    
+    
+    <script defer src="/js/progress.min.js?v=6b058157"></script>
+    
+    
+    <script defer src="/js/back-to-top.min.js?v=cebd24d7"></script>
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>

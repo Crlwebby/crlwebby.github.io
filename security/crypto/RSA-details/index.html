@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="zh-CN" class="h-full scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Hexo " />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    
+    <!-- Prefetch the search script/CSS and Pagefind UI assets at lowest priority so the first
+         click (or "/" shortcut) opens the search box instantly, even on touch devices with no hover. -->
+    <link rel="prefetch" as="script" href="/js/search.min.js?v=4e64082f" />
+    <link rel="prefetch" as="style" href="/css/search.min.css?v=81ae2a10" />
+    <link rel="prefetch" as="script" href="/pagefind/pagefind-ui.js" />
+    <link rel="prefetch" as="style" href="/pagefind/pagefind-ui.css" />
+    
+    
+    
+    <!-- Preload the critical (title + body) font stylesheet so it is fetched at highest
+         priority ahead of the blocking theme script, shrinking the swap window.
+         Kept as a preload (not a stylesheet) here so it does not delay the theme script. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    <!-- FOUC prevention: resolve theme before first paint.
+         Flow: read default → build valid states → read localStorage (try/catch for Safari private mode)
+         → validate saved state → set data-theme-state on <html> → resolve effective dark/light
+         → set data-theme and colorScheme. In "system" mode it also keeps following OS
+         light/dark changes live, so the page updates without a reload even when the toggle is hidden.
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring this past first paint
+         (it must run synchronously for both theme resolution and the preloader skip). -->
+    <script data-cfasync="false">
+    ;(() => {
+        const defaultTheme = "light";
+        window.__themeDefault = defaultTheme;
+        const states = defaultTheme === 'system' ? ['system', 'light', 'dark'] : ['light', 'dark'];
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch (_) {}
+        const state = saved && states.includes(saved) ? saved : defaultTheme;
+        const html = document.documentElement;
+        html.setAttribute('data-theme-state', state);
+        const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const isDark = state === 'dark' || (state !== 'light' && darkQuery.matches);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        html.style.colorScheme = isDark ? 'dark' : 'light';
+        if (defaultTheme === 'system') {
+            // Keep following OS light/dark changes while in "system" mode even when the
+            // toggle (and theme-toggle.js) is disabled, so the page updates without a reload.
+            const followSystem = () => {
+                if (html.getAttribute('data-theme-state') !== 'system') return;
+                html.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
+                html.style.colorScheme = darkQuery.matches ? 'dark' : 'light';
+            };
+            if (darkQuery.addEventListener) darkQuery.addEventListener('change', followSystem);
+            else if (darkQuery.addListener) darkQuery.addListener(followSystem);
+        }
+        try {
+            if (sessionStorage.getItem('shiro:title-font-ready') === '1') {
+                html.classList.add('shiro-preloader-done');
+            }
+        } catch (_) {}
+    })();
+    </script>
+    
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Yuji+Syuku&family=Zen+Old+Mincho:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" />
+    
+    
+    
+    <!-- Non-critical (display=optional) font stylesheets load async so they never block first
+         paint or compete with the critical title+body stylesheet above. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=optional" /></noscript>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    <title>RSA详解 | Crlwebby</title>
+
+    <!-- SEO Meta -->
+    
+    <meta name="description" content="RSA details 起因 ​ 日常自闭=。=，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。 使用 ​ 先把RSA怎么用给写出来，具体的后面可以慢慢解释 $$ 首先是选取两个大质数p和q，然后计算p*q=..." />
+    
+    
+    <meta name="author" content="crlwebby" />
+    
+    
+    <meta name="keywords" content="math, RSA, 数论" />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="RSA详解 | Crlwebby" />
+    
+    <meta property="og:description" content="RSA details 起因 ​ 日常自闭=。=，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。 使用 ​ 先把RSA怎么用给写出来，具体的后面可以慢慢解释 $$ 首先是选取两个大质数p和q，然后计算p*q=..." />
+    
+    <meta property="og:url" content="https://crlwebby.github.io/security/crypto/RSA-details/index.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Crlwebby" />
+    
+    
+    <meta property="og:locale" content="zh_CN" />
+    
+    
+    
+    
+    <meta property="article:published_time" content="2020-11-06T14:56:05.000Z" />
+    
+    
+    <meta property="article:modified_time" content="2026-06-19T05:49:52.251Z" />
+    
+    
+    <meta property="article:author" content="crlwebby" />
+    
+    
+    
+    <meta property="article:tag" content="math" />
+    
+    <meta property="article:tag" content="RSA" />
+    
+    <meta property="article:tag" content="数论" />
+    
+    
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="RSA详解 | Crlwebby" />
+    
+    <meta name="twitter:description" content="RSA details 起因 ​ 日常自闭=。=，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。 使用 ​ 先把RSA怎么用给写出来，具体的后面可以慢慢解释 $$ 首先是选取两个大质数p和q，然后计算p*q=..." />
+    
+    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://crlwebby.github.io/security/crypto/RSA-details/index.html" />
+
+    <!-- Pagination rel hints for paginated list pages (home / archive / tag / category) -->
+    
+
+    <!-- Structured data (JSON-LD) -->
+    
+    
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BlogPosting","headline":"RSA详解","mainEntityOfPage":{"@type":"WebPage","@id":"https://crlwebby.github.io/security/crypto/RSA-details/index.html"},"description":"RSA details 起因 ​ 日常自闭=。=，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。 使用 ​ 先把RSA怎么用给写出来，具体的后面可以慢慢解释 $$ 首先是选取两个大质数p和q，然后计算p*q=...","datePublished":"2020-11-06T14:56:05.000Z","dateModified":"2026-06-19T05:49:52.251Z","author":{"@type":"Person","name":"crlwebby"},"publisher":{"@type":"Organization","name":"Crlwebby","logo":{"@type":"ImageObject","url":"https://crlwebby.github.io/favicon.svg"}},"keywords":"math, RSA, 数论"}]</script>
+    
+
+    <!-- Favicon -->
+    
+    <link rel="icon" href="/favicon.svg" />
+    
+
+    <!-- RSS -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.min.css?v=775ef865">
+    
+    
+    <link rel="stylesheet" href="/css/toc.min.css?v=eccfbacd">
+    
+    <!-- Preloader script in <head> (defer) so its fetch starts during head parse;
+         data-cfasync="false" stops Cloudflare Rocket Loader from deferring it past first paint. -->
+    <script defer data-cfasync="false" src="/js/preloader.min.js?v=aab4aff5"></script>
+</head>
+
+
+<body class="h-full fog-bg text-slate-800">
+    <!-- Font-load preloader: covers the title-font swap until preloader.min.js fades it out.
+         data-shiro-font-text lists the title glyphs to wait for. -->
+    <div id="shiroPreloader" class="shiro-preloader" aria-hidden="true"
+        data-shiro-font-text="Crlwebby白白は、余白の名。">
+        <div class="shiro-preloader-ripple" aria-hidden="true">
+            <span class="shiro-preloader-ring"></span>
+            <span class="shiro-preloader-ring"></span>
+        </div>
+    </div>
+    
+    
+<svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+        <filter id="seal-roughness" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+        </filter>
+        <filter id="text-erosion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+        </filter>
+    </defs>
+</svg>
+
+    
+
+    
+    
+
+    
+    <div id="progressBar" class="progress-bar" aria-hidden="true"></div>
+    
+    
+    <div id="backToTopSentinel" class="back-to-top-sentinel" aria-hidden="true"></div>
+    
+
+    <div class="min-h-full px-4 pt-14 pb-6 md:pb-5">
+
+        <!-- Paper Card -->
+        <div
+            class="paper relative mx-auto w-full max-w-4xl rounded-xl px-5 sm:px-8 md:px-12 lg:px-14 pt-10 pb-6 md:pt-12 md:pb-8">
+
+            
+
+<header class="relative" data-pagefind-ignore>
+
+    <div class="relative flex items-start justify-center">
+        <div class="text-center">
+            <div class="relative inline-block">
+                
+                <p class="site-title">
+                    <a href="/">Crlwebby</a>
+                </p>
+                
+                <!-- Seal: Mathematically Centered -->
+                
+                <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-1 sm:ml-4 origin-left scale-75 sm:scale-110">
+                    
+<svg width="52" height="52" viewBox="0 0 100 100" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15,12 Q50,5 85,12 Q95,50 88,88 Q50,95 12,88 Q5,50 15,12 Z"
+        fill="var(--color-seal)" filter="url(#seal-roughness)" opacity="0.92" />
+    <text x="50" y="50" text-anchor="middle" dominant-baseline="central"
+        font-size="42" fill="rgba(255,255,255,0.92)" filter="url(#text-erosion)"
+        class="seal-text select-none">白</text>
+</svg>
+
+                </div>
+                
+            </div>
+            
+            <p class="site-subtitle">
+                Believe in yourself!
+            </p>
+            
+            <div class="mt-3 sm:mt-4 flex justify-center gap-2">
+                
+                
+                <button id="themeToggle" type="button" class="focus-elegant header-pill-btn" aria-label="浅色" data-label-system="跟随系统" data-label-light="浅色" data-label-dark="深色">
+                    
+<svg data-icon="system" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+    <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="light" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke-width="1.5"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+                    
+<svg data-icon="dark" class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </button>
+                
+                
+                <button id="searchToggle" type="button" class="focus-elegant header-pill-btn" aria-haspopup="dialog" aria-label="搜索">
+                    
+<svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
+</svg>
+
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+
+<nav class="mt-8 md:mt-10" aria-label="菜单" data-pagefind-ignore>
+    <!-- Mobile Toggle -->
+    <div class="flex items-center justify-center md:hidden">
+        <button id="menuBtn" type="button"
+            class="focus-elegant inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-paper/95 px-4 py-2 text-sm text-slate-700 shadow-xs"
+            aria-expanded="false" aria-controls="mobileMenu">
+            <span class="text-base leading-none tracking-widest">菜单</span>
+            
+<svg class="size-4 text-slate-500 transition-transform duration-200" id="menuChevron"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+        </button>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:block">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base text-slate-700 px-4">
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="text-slate-400 select-none" role="separator" aria-hidden="true">/</li>
+            
+            
+            
+            
+            <li><a class="focus-elegant rounded-md px-2 py-1 hover:text-seal transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="menu-panel md:hidden mt-4" data-open="false">
+        <ul
+            class="mx-auto max-w-sm max-h-menu overflow-y-auto rounded-2xl border border-slate-200 bg-paper/95 shadow-xs">
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/" >Home</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/archives" >Archives</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/categories" >Categories</a></li>
+            
+            <li class="h-px bg-slate-200/70" role="separator" aria-hidden="true"></li>
+            
+            
+            
+            
+            <li><a class="focus-elegant block px-6 py-3 text-center text-slate-800 hover:text-seal hover:bg-seal/5 transition-colors"
+                    href="/tags" >Tags</a></li>
+            
+            
+        </ul>
+    </div>
+</nav>
+
+
+
+            <!-- Main Content -->
+            <main class="section-divider">
+                
+
+
+
+
+
+
+
+
+<article class="py-2">
+    <header class="text-center mb-8">
+        
+        <h1 class="page-title mb-4" data-pagefind-body data-pagefind-meta="title">
+            RSA详解
+        </h1>
+        
+        
+
+
+
+<div class="mb-4 flex items-center justify-center gap-4 text-sm text-slate-500 flex-wrap">
+    <div class="flex items-center gap-1.5">
+        
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+        <a href="/archives/2020/" class="oldstyle-nums link-muted"><time datetime="2020-11-06">2020/11/06</time></a>
+    </div>
+    
+        
+        <span class="text-slate-300" aria-hidden="true">•</span>
+        <div class="flex items-center gap-1.5">
+            
+<svg class="size-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+</svg>
+
+            
+                
+                    <a class="link-muted" href="/categories/security/">security</a>
+                    <span class="text-slate-300">/</span>
+                
+                    <a class="link-muted" href="/categories/security/crypto/">crypto</a>
+                    
+                
+            
+        </div>
+    
+</div>
+
+        
+    </header>
+
+    
+    
+<!-- Inline TOC (small screens < xl) -->
+<nav id="tocInline" class="toc-inline xl:hidden mb-8" aria-label="目录" data-pagefind-ignore>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="tocInlineBody">
+        <span class="toc-toggle-title">目录</span>
+        
+<svg class="toc-chevron size-4 text-slate-500 transition-transform duration-200"
+    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+        clip-rule="evenodd" />
+</svg>
+
+    </button>
+    <div class="toc-body" id="tocInlineBody" data-open="false"><ul class="toc-list"><li class="toc-item" data-level="0"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0" data-target="起因">起因</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8" data-target="使用">使用</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E5%8E%9F%E7%90%86" data-target="原理">原理</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#%E6%95%B4%E9%99%A4" data-target="整除">整除</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89" data-target="定义">定义</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%861" data-target="定理1">定理1</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#Euclid%E9%99%A4%E6%B3%95" data-target="Euclid除法">Euclid除法</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%862" data-target="定理2">定理2*</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89Euclid%E9%99%A4%E6%B3%95" data-target="广义Euclid除法">广义Euclid除法</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%863" data-target="定理3">定理3</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%864" data-target="定理4">定理4</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86" data-target="算术基本定理">算术基本定理</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#%E5%90%8C%E4%BD%99" data-target="同余">同余</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1" data-target="定义-1">定义</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%87%A0%E6%9D%A1%E5%AE%9A%E7%90%86" data-target="几条定理">几条定理</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#Euler%E5%87%BD%E6%95%B0" data-target="Euler函数">Euler函数</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E9%80%86%E5%85%83%E5%AE%9A%E7%90%86" data-target="逆元定理">逆元定理</a></li></ul></div>
+</nav>
+
+<!-- Sidebar TOC (xl+ screens) -->
+<nav id="tocSidebar" class="toc-sidebar hidden xl:block" aria-label="目录" data-pagefind-ignore>
+    <div class="toc-sidebar-inner">
+        <p class="toc-sidebar-title">目录</p>
+        <div class="toc-body"><ul class="toc-list"><li class="toc-item" data-level="0"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0" data-target="起因">起因</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8" data-target="使用">使用</a></li><li class="toc-item" data-level="0"><a class="toc-link" href="#%E5%8E%9F%E7%90%86" data-target="原理">原理</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#%E6%95%B4%E9%99%A4" data-target="整除">整除</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89" data-target="定义">定义</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%861" data-target="定理1">定理1</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#Euclid%E9%99%A4%E6%B3%95" data-target="Euclid除法">Euclid除法</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%862" data-target="定理2">定理2*</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89Euclid%E9%99%A4%E6%B3%95" data-target="广义Euclid除法">广义Euclid除法</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%863" data-target="定理3">定理3</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E7%90%864" data-target="定理4">定理4</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86" data-target="算术基本定理">算术基本定理</a></li><li class="toc-item" data-level="1"><a class="toc-link" href="#%E5%90%8C%E4%BD%99" data-target="同余">同余</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1" data-target="定义-1">定义</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E5%87%A0%E6%9D%A1%E5%AE%9A%E7%90%86" data-target="几条定理">几条定理</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#Euler%E5%87%BD%E6%95%B0" data-target="Euler函数">Euler函数</a></li><li class="toc-item" data-level="2"><a class="toc-link" href="#%E9%80%86%E5%85%83%E5%AE%9A%E7%90%86" data-target="逆元定理">逆元定理</a></li></ul></div>
+    </div>
+</nav>
+
+    
+
+    <div class="prose-shiro" data-pagefind-body>
+        <h1 id="RSA-details"><a href="#RSA-details" class="headerlink" title="RSA details"></a>RSA details</h1><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>​		日常自闭&#x3D;。&#x3D;，做个中科大新生赛的RSA，然后把自己给气死了。去年寒假写的脚本，今年各种bug，然后自己RSA和数论|抽代内容也忘得都差不多了，就很烦躁，啥也不会。于是干脆整这样一篇博客，趁着这个双休日，把RSA好好的理解理解，也可以做为以后自己复习用。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>​		先把RSA怎么用给写出来，具体的后面可以慢慢解释<br>$$<br>首先是选取两个大质数p和q，然后计算p*q&#x3D;n\tag{Q1}<br>$$</p>
+<p>$$<br>和(p-1)*(q-1)&#x3D;\phi(N)\tag{Q2}<br>$$</p>
+<p>$$<br>选取整数e（即公钥），使得e满足1&lt;e&lt;\phi(N),(e,\phi(n))&#x3D;1\tag{Q3}<br>$$</p>
+<p>$$<br>则存在整数d（即私钥），使得ed\equiv1\pmod{\phi(N)} \tag{Q4}<br>$$</p>
+<p>PS: d也是e在某某里的逆元，这部分群环域的内容忘得差不多了。。。<br>$$<br>加密：：此时有明文m,使用公钥e进行加密，得到密文c(cipher)，c&#x3D;m^e\pmod{n}<br>$$</p>
+<p>$$<br>解密：：此时有密文c，使用私钥d进行解密，得到明文m(message),m&#x3D;c^d\pmod{n}\tag{Q5}<br>$$</p>
+<p>这就是整体的使用流程，当然，这里有非常多的细节没有展示，仅仅是下次要用的时候急着拿来用罢了，不仅看客看不懂，我写的也云里雾里：凭什么啊？</p>
+<table>
+<thead>
+<tr>
+<th>Q</th>
+<th>question_detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="">Q1</a></td>
+<td>涉及到RSA的根本原理，即大数分解问题：已知p、q，计算n很容易，但由n计算p、q非常困难</td>
+</tr>
+<tr>
+<td><a href="">Q2</a></td>
+<td>phi(N)是干什么用的？</td>
+</tr>
+<tr>
+<td><a href="">Q3</a></td>
+<td>为什么要(e,phi(N))&#x3D;1?</td>
+</tr>
+<tr>
+<td><a href="">Q4</a></td>
+<td>为什么存在d？如果存在，要如何计算d？</td>
+</tr>
+<tr>
+<td><a href="">Q5</a></td>
+<td>为什么能够顺利解密？</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>​		这里的本意是梳理自己有关数论的知识内容，尽可能的不学究，追随RSA的主线走。如果对Q1-Q5感兴趣的，上方表格内点击链接导向页面内容即可。</p>
+<h3 id="整除"><a href="#整除" class="headerlink" title="整除"></a>整除</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>$$<br>设a,b是任意两个整数，其中b\not&#x3D;0，如果存在一个整数q使得等式a&#x3D;qb成立，则称b整除a或者a被b整除，记作b|a<br>$$</p>
+<h4 id="定理1"><a href="#定理1" class="headerlink" title="定理1"></a>定理1</h4><p>$$<br>设a,b,c\not&#x3D;0是三个整数，若c|a,c|b，则对任意整数s,t，有c|sa+tb<br>$$</p>
+<p>​			构造a&#x3D;p<em>c,b&#x3D;q</em>c即可</p>
+<h4 id="Euclid除法"><a href="#Euclid除法" class="headerlink" title="Euclid除法"></a>Euclid除法</h4><p>$$<br>设a,b是两个整数，其中b&gt;0，则存在唯一的整数q,r使得a&#x3D;qb+r,0\leq r&lt;b<br>$$</p>
+<p>​			证明好像有点复杂&#x3D;&#x3D;，不是很难懂，但也比较难想，有兴趣查资料吧23333</p>
+<h4 id="定理2"><a href="#定理2" class="headerlink" title="定理2*"></a>定理2*</h4><p>$$<br>设a,b,c是三个不全为零的整数，如果a&#x3D;qb+c,其中q是整数，则(a,b)&#x3D;(b,c)<br>$$</p>
+<p>​			PS:(a,b)表示a和b的最大公因数，这个符号应该目前是第一次出现。</p>
+<p>​			这个定理非常重要，而且并不是十分直观，这也是后面扩展Euclid除法的基础。</p>
+<p>​			<br>$$<br>设d&#x3D;(a,b),d’&#x3D;(b,c)，则d|a,d|b,于是d|a+(-q)b&#x3D;c\\<br>所以d是b、c的因子,因此d\leq d’;\\<br>同理，d’\leq d，因此d&#x3D;d’,即(a,b)&#x3D;(b,c)<br>$$</p>
+<h4 id="广义Euclid除法"><a href="#广义Euclid除法" class="headerlink" title="广义Euclid除法"></a>广义Euclid除法</h4><p>​			根据上面的a&#x3D;qb+r以及（a,b)&#x3D;(b,r)，可以进行不停的迭代，由于r是小于b的，所以r也会不停减小，直至为0.（a,b)为算式列中最后一个非零余数<br>$$<br>以a&#x3D;737和b&#x3D;635为例，求解(a,b)：\\<br>737&#x3D;1·635+102\\<br>635&#x3D;6·102+23\\<br>102&#x3D;4·23+10\\<br>23&#x3D;2·10+3\\<br>10&#x3D;3·3+1\\<br>3&#x3D;3·1+0\\<br>最大公因数为1<br>$$</p>
+<h4 id="定理3"><a href="#定理3" class="headerlink" title="定理3"></a>定理3</h4><p>$$<br>设a,b是任意两个正整数，则s_n+t_nb&#x3D;(a,b)\\<br>s_-2&#x3D;1,s_-1&#x3D;0,s_j&#x3D;s_{j-2}-q_js_{j-1}\\<br>t_-2&#x3D;0,s_-1&#x3D;1,t_j&#x3D;t_{j-2}-q_jt_{j-1}\\<br>$$</p>
+<p>$$<br>以a&#x3D;737和b&#x3D;635为例，求s,t使得s·a+t·b&#x3D;(a,b)\\<br>\begin{aligned}1&amp;&#x3D;10-3·3\\<br>&amp;&#x3D;10-3·(23-2·10)\\<br>&amp;&#x3D;(-3)·23+7·(102-4·23)\\<br>&amp;&#x3D;7·102+(-31)·(635-6·102)\\<br>&amp;&#x3D;(-31)·635+193·(737-635)\\<br>&amp;&#x3D;193·737+(-224)·635\\<br>\end{aligned}<br>$$</p>
+<p>​			这个定理我也看不懂，尤其证明更是复杂，在我的教材上篇幅足足有两页之多，但是实际上操作起来十分易懂。就是从1(或者最大公因数)开始，不断地利用从前的等式代入，直至两个分量满足条件。证明很复杂，但对于理解RSA与否并没有影响，因此略去（其实是看不懂）</p>
+<h4 id="定理4"><a href="#定理4" class="headerlink" title="定理4"></a>定理4</h4><p>$$<br>整数a,b互素的充要条件是存在整数s,t,使得sa+tb&#x3D;1<br>$$</p>
+<p>​			这个定理是根据定理3证的，但是感觉一般也用不太上，可以当成个性质。</p>
+<h4 id="算术基本定理"><a href="#算术基本定理" class="headerlink" title="算术基本定理"></a>算术基本定理</h4><p>$$<br>任一整数n&gt;1都可以表示成素数的乘积，且在不考虑乘积顺序的情况下，该表达式是唯一的<br>$$</p>
+<h3 id="同余"><a href="#同余" class="headerlink" title="同余"></a>同余</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>$$<br>给定一个正整数m和两个整数a,b，若a-b被m整除或m|(a-b)，则a,b叫做模m同余，记作a\equiv b;\\否则，叫做模m不同余，记作a\not\equiv b.<br>$$</p>
+<h4 id="几条定理"><a href="#几条定理" class="headerlink" title="几条定理"></a>几条定理</h4><p>$$<br>1.（自反性）任一整数a,a\equiv a\pmod{m}\\<br>2.(对称性) 若a\equiv b\pmod{m}，则b\equiv a\pmod{m}\\<br>3.(传递性) 若a\equiv b\pmod{m},b\equiv c\pmod{m}，则a\equiv c\pmod{m}\\<br>4.若a_1\equiv b_1\pmod{m},a_2\equiv b_2\pmod{m}，则\\<br>i)a_1+b_1\equiv b_1+b_2\pmod{m},ii)a_1b_1\equiv b_1b_2\pmod{m}<br>$$</p>
+<p>​			这四条定理很普遍实用，而且很好证，都是从定义出发可得。<br>$$<br>设p,q是不同的素数，如果整数a,b满足a\equiv b\pmod{p},a\equiv b\pmod{q},则a\equiv b\pmod{pq}<br>$$<br>​			这条也许有用……注意p、q互素就很容易得出结论了，记录一下。</p>
+<h4 id="Euler函数"><a href="#Euler函数" class="headerlink" title="Euler函数"></a>Euler函数</h4><p>$$<br>设m是一个正整数，则m个整数0，1，……，m-1中与m互素的整数的个数，记作\phi(m),通常叫做Euler函数\\<br>例：m&#x3D;10,则[0-9]与m互素的数为1，3，7，9，所以\phi(10)&#x3D;4<br>$$</p>
+<h4 id="逆元定理"><a href="#逆元定理" class="headerlink" title="逆元定理"></a>逆元定理</h4><p>$$<br>设m是一个正整数，a是满足(a,m)&#x3D;1的整数，则存在唯一的整数a’，1\leq a’&lt;m，使得\\<br>aa’\equiv1\pmod{m}<br>$$</p>
+<p>这个证明的其中一个证法需要用到剩余系的知识，这个我也许会另开一个帖，在RSA实在塞不下了。</p>
+<p>好在教材还不错，有另一个用广义Euclid除法的证明可以贴上来<br>$$<br>因为(a,m)&#x3D;1,根据整除里的定理3，我们可以找到s,t,使得\\<br>sa+tm&#x3D;(a,m)&#x3D;1\\<br>两边同时模m即可得\\<br>sa\equiv1\pmod{m},\\<br>即a’\equiv s\pmod{m}满足aa’\equiv1\pmod{m}<br>$$<br>几个Euler函数的求解方法：<br>$$<br>1.m,n是互素的两个正整数，则\\<br>\phi(mn)&#x3D;\phi(m)\phi(n)\\<br>2.\phi(p^{\alpha})&#x3D;p^{\alpha}-p^{\alpha -1}<br>$$</p>
+
+    </div>
+
+    <!-- Tags -->
+    
+    <div class="mt-8 flex flex-wrap gap-2">
+        
+        
+<a href="/tags/math/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    math
+    
+</a>
+
+        
+        
+<a href="/tags/RSA/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    RSA
+    
+</a>
+
+        
+        
+<a href="/tags/%E6%95%B0%E8%AE%BA/" class="tag-pill">
+    <svg class="size-3 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+    数论
+    
+</a>
+
+        
+    </div>
+    
+
+    
+    <!-- Post Navigation: Hexo's page.prev = newer post, page.next = older post -->
+    <div class="section-divider flex justify-between items-center text-sm md:text-base">
+        
+        <a href="/security/CTF/buuctf-web-1/" class="post-nav-link group text-left" title="buuctf_web_1">
+             <span aria-hidden="true">&larr;</span>
+             <span class="post-nav-title">buuctf_web_1</span>
+        </a>
+        
+
+        
+        <a href="/security/CTF/Hackergame_2020_Writeup/" class="post-nav-link group text-right" title="Hackergame 2020 Writeup">
+            <span class="post-nav-title">Hackergame 2020 Writeup</span>
+            <span aria-hidden="true">&rarr;</span>
+        </a>
+        
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+</article>
+
+
+            </main>
+
+            <footer class="section-divider" data-pagefind-ignore>
+    <div class="text-center text-sm text-slate-500 leading-relaxed">
+        <p>&copy; <span class="oldstyle-nums">2020–2026</span> Crlwebby</p>
+        <p class="font-eng text-footnote tracking-wide opacity-90">Elegant theme by <a href="https://github.com/Acris/hexo-theme-shiro" target="_blank" rel="noopener noreferrer" class="link-muted">Shiro</a> · Made by <a href="https://acris.me" target="_blank" rel="noopener noreferrer" class="link-muted">Acris</a>
+                        with <span aria-label="love" title="love">❤️</span></p>
+    </div>
+</footer>
+
+        </div>
+
+        <!-- Note Text — decorative aside, not part of main content or footer -->
+        <aside class="mt-4 text-center" aria-hidden="true" role="presentation">
+            <p class="site-note font-title text-xs sm:text-sm text-slate-400/70 tracking-note font-light select-none" lang="ja">
+                白は、余白の名。
+            </p>
+        </aside>
+    </div>
+
+    
+    <button id="backToTop" type="button" class="back-to-top" data-visible="false" aria-label="回到顶部">
+        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+    
+
+    <!-- Scripts -->
+    
+    
+    <script>
+        
+        window.__i18n = window.__i18n || {};
+        
+        
+        window.__i18n["search"] = {"button":"搜索","close":"关闭","loading":"加载中…","many_results":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","one_result":"找到 [COUNT] 个与 \"[SEARCH_TERM]\" 相关的结果","placeholder":"搜索文章…","unavailable":"搜索暂时不可用。","zero_results":"未找到与 \"[SEARCH_TERM]\" 相关的内容"};
+        window["__pagefindBase"] = "/pagefind/";
+        window["__searchCss"] = "/css/search.min.css?v=81ae2a10";
+        window["__searchScript"] = "/js/search.min.js?v=4e64082f";
+        
+        
+        
+        
+        window["__mobileMenuScript"] = "/js/mobile-menu.min.js?v=346d5ab1";
+        
+    </script>
+    
+    
+    <script defer src="/js/search-bootstrap.min.js?v=360bb33e"></script>
+    
+    
+    
+    
+    <script defer src="/js/toc.min.js?v=f2791db0"></script>
+    
+    
+    <script defer src="/js/progress.min.js?v=6b058157"></script>
+    
+    
+    <script defer src="/js/back-to-top.min.js?v=cebd24d7"></script>
+    
+    
+    <script defer src="/js/theme-toggle.min.js?v=5572a0a4"></script>
+    
+    
+    <script defer src="/js/mobile-menu-bootstrap.min.js?v=2703c648"></script>
+    
+
+    
+
+
+
+</body>
+</html>
